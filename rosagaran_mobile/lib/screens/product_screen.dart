@@ -8,7 +8,7 @@ import '../models/product_model.dart';
 import '../services/product_service.dart';
 
 // screens
-import 'product_details_screen.dart';
+import 'detail_screen.dart';
 
 // widgets
 import '../widgets/custom_text.dart';
