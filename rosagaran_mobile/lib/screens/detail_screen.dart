@@ -5,6 +5,7 @@ import '../constants.dart';
 import '../models/product_model.dart';
 import '../services/cart_service.dart';
 import '../services/product_service.dart';
+import '../services/user_service.dart';
 import '../widgets/custom_text.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -194,8 +195,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
 
     try {
+      final userData = await UserService().getUserData();
+      final userId = (userData['id'] as int?) ?? fallbackCartUserId;
+
       await CartService().addToCart(
-        userId: demoCartUserId,
+        userId: userId > 0 ? userId : fallbackCartUserId,
         productId: product.id,
         quantity: _quantity,
       );
@@ -207,7 +211,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            '${product.title} added to user $demoCartUserId cart.',
+            '${product.title} added to user ${userId > 0 ? userId : fallbackCartUserId} cart.',
           ),
         ),
       );
